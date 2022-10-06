@@ -6,7 +6,11 @@ package disjointset
 type DisjointSet interface {
 	// UnionSet(s, t) merges (unions) the sets containing s and t,
 	// and returns the representative of the resulting merged set.
-	UnionSet(int, int) int
+	UnionSet( first int, second int) int {
+		if first == second {				//if  both integers already in union, just return the representative
+			return FindSet(first)
+		}
+	}
 	// FindSet(s) returns representative of the class that s belongs to.
 	FindSet(int) int
 }

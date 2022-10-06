@@ -25,25 +25,43 @@ func Reachable(
 	// return false otherwise
 	//panic("TODO: implement this!")
 
-	if len(input) == 0 {
-		if start == final {
+	if len(input) == 0 { //check if sring is empty
+		if start == final { //if so then start and final need to be same since no transitions will occur, it is reachable if so
 			return true
 		} else {
-			return false
+			return false //if start and final are not same then it is un reachable with blank input
 		}
 	}
 
-	var next_state []state = transitions(start, input[0])
+	var next_state []state = transitions(start, input[0]) //with next symbol, determine what states can be reached
 
 	var result bool
 
-	for i := 0; i < len(next_state); i++ {
-		result = Reachable(transitions, next_state[i], final, input[1:])
-		if result == true {
+	for i := 0; i < len(next_state); i++ { //traverse to all possible next states and see if from there are any reachable with the same string minus the first symbol
+		result = Reachable(transitions, next_state[i], final, input[1:]) //go one possible path with string without the first symbol
+		if result == true {                                              // if it reached final then it is reachable so return true, if not then check another path
 			return true
 		}
 	}
 
-	return false
+	return false // all paths checked and none coul reach final state
 
 }
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Logic for the recursion:
+//1. if symbols are blank then start and final state must be same to return true else false
+//2. In order for string to make it reachable from start state to final state, the same string without the first symbol must make it reachable from any of the next states to final state
+//3. Step 2 gives all possible paths that the string can take from start state so if noe are the final state then it is unreachable
+
+//Example from the model in handout:
+//Is state 2 reachable from state 0 with "aba"?
+
+//For that to be true state 2 must be reachable from state 1 or 2 with "ba", since those are next states for 0 given 'a'
+
+//For that to be true state 2 must be reachable from state 0 with "a", since 1 goes to 0 with 'b' but 2 goes nowhere with 'b'
+
+//For that to be true state 2 must be reachable from state 2 or 1 with "", since 0 goes to 2 or 1 with 'a'
+
+//with state 2 go to 2 with "", that is our base case so it is true
