@@ -23,5 +23,27 @@ func Reachable(
 	// TODO: Write the Reachable function,
 	// return true if the nfa accepts the input and can reach the final state with that input,
 	// return false otherwise
-	panic("TODO: implement this!")
+	//panic("TODO: implement this!")
+
+	if len(input) == 0 {
+		if start == final {
+			return true
+		} else {
+			return false
+		}
+	}
+
+	var next_state []state = transitions(start, input[0])
+
+	var result bool
+
+	for i := 0; i < len(next_state); i++ {
+		result = Reachable(transitions, next_state[i], final, input[1:])
+		if result == true {
+			return true
+		}
+	}
+
+	return false
+
 }
